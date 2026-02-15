@@ -3,19 +3,19 @@ package ru.yandex.practicum;
 import java.util.Set;
 
 public class WordleDictionaryHelper {
-    WordleDictionary dictionary;
+    private final WordleDictionary dictionary;
 
     public WordleDictionaryHelper(WordleDictionary dictionary) {
         this.dictionary = dictionary;
     }
 
-    public WordCorrectness correctnessChek(String word, int length) {
+    public boolean correctnessChek(String word, int length) throws WordCorrectnessException {
         if (word.length() != length) {
-            return WordCorrectness.WRONG_LENGTH;
+            throw new WordCorrectnessException("Длина слова должна быть равна " + length + ".");
         } else if (!dictionary.contains(word)) {
-            return WordCorrectness.NOT_IN_DICTIONARY;
+            throw new WordCorrectnessException("Слово " + word + " не содержится в словаре.");
         }
-        return WordCorrectness.OK;
+        return true;
     }
 
     public static boolean hasAnyLetters(String word, Set<Character> characters) {

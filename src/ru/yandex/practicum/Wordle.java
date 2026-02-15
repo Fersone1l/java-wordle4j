@@ -23,13 +23,14 @@ public class Wordle {
             WordleDictionary dictionary = loader.loadFromFIle(WORDS_FILE_PATH);
 
             WordleGame game = new WordleGame();
-            game.setLogWriter(logWriter);
 
-            GameStarter gameStarter = new GameStarter(game, logWriter, dictionary, wordsLength);
+            GameStarter gameStarter = new GameStarter(logWriter, dictionary, wordsLength);
+            gameStarter.initializeGame(game);
+
             WordleDictionaryHelper helper = new WordleDictionaryHelper(dictionary);
 
             System.out.println("Отгадайте слово из " + wordsLength + " букв за " + steps + " попыток!");
-            playGame(game, helper, logWriter);
+            playGame(game, helper);
 
             logWriter.println("=== Игра завершена ===");
 
@@ -43,7 +44,7 @@ public class Wordle {
         }
     }
 
-    public static void playGame(WordleGame game, WordleDictionaryHelper helper, PrintWriter logWriter) {
+    public static void playGame(WordleGame game, WordleDictionaryHelper helper) {
         while (game.getStep() != steps) {
             String userAnswer = checkAnswer(helper);
 
@@ -66,26 +67,24 @@ public class Wordle {
     }
 
     public static String checkAnswer(WordleDictionaryHelper helper) {
-        WordCorrectness answerCorrectness = WordCorrectness.DEFAULT;
         String userAnswer = null;
-        while (answerCorrectness != WordCorrectness.OK) {
+        while (true) {
             userAnswer = scanner.nextLine();
             if (userAnswer.isEmpty()) {
                 break; // пустой ввод — подсказка
             }
-            answerCorrectness = helper.correctnessChek(userAnswer, wordsLength);
-            printMistake(answerCorrectness, userAnswer);
+            try {
+                if (helper.correctnessChek(userAnswer, wordsLength)) {
+                    break;
+                }
+            } catch (WordCorrectnessException e) {
+                System.out.println(e.getMessage());
+            }
         }
         return userAnswer;
     }
 
-    public static void printMistake(WordCorrectness answerCorrectness, String userAnswer) {
-        if (answerCorrectness == WordCorrectness.NOT_IN_DICTIONARY) {
-            System.out.println("Слово " + userAnswer + " не содержится в словаре.");
-        } else if (answerCorrectness == WordCorrectness.WRONG_LENGTH) {
-            System.out.println("Длина слова должна быть равна " + wordsLength + ".");
-        }
-    }
+
 
     public static String resultOfGuess(UserResult userResult) {
         StringBuilder result = new StringBuilder();

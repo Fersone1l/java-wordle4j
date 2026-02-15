@@ -6,18 +6,18 @@ import java.util.Random;
 
 public class GameStarter {
 
-    PrintWriter logWriter;
-    WordleDictionary dictionary;
-    int wordsLength;
+    private final PrintWriter logWriter;
+    private final WordleDictionary dictionary;
+    private final int wordsLength;
+    private final Random random = new Random();
 
-    public GameStarter(WordleGame game, PrintWriter logWriter, WordleDictionary dictionary, int wordsLength) {
+    public GameStarter(PrintWriter logWriter, WordleDictionary dictionary, int wordsLength) {
         this.logWriter = logWriter;
         this.dictionary = dictionary;
         this.wordsLength = wordsLength;
-        initializeGame(game);
     }
 
-    private void initializeGame(WordleGame game) {
+    public void initializeGame(WordleGame game) {
         game.setLogWriter(logWriter);
        List<String> wordsForGame = dictionary.filterByLength(wordsLength);
         if (wordsForGame.isEmpty()) {
@@ -32,7 +32,6 @@ public class GameStarter {
     }
 
     public String getRandomWord(WordleDictionary dictionary) {
-        Random random = new Random();
         List<String> words = dictionary.filterByLength(wordsLength);
 
         return words.get(random.nextInt(words.size()));

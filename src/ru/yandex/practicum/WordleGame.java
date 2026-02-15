@@ -23,8 +23,6 @@ public class WordleGame {
 
     private List<String> dictionary;
 
-    private final List<String> userAnswers = new ArrayList<>();
-
     private final List<UserResult> userResults = new ArrayList<>();
 
     private final Set<Character> requiredLetters = new HashSet<>();
@@ -36,6 +34,8 @@ public class WordleGame {
     private final Map<Integer, Character> bannedPosition = new HashMap<>();
 
     private PrintWriter logWriter;
+
+    private final Random random = new Random();
 
     public void setLogWriter(PrintWriter logWriter) {
         this.logWriter = logWriter;
@@ -66,7 +66,6 @@ public class WordleGame {
     }
 
     public void makeGuess(String userAnswer) {
-        userAnswers.add(userAnswer);
         logWriter.println("В список ответов пользователя добавлено слово: " + userAnswer);
 
         step++;
@@ -79,7 +78,6 @@ public class WordleGame {
 
     public String getHint() {
         List<String> dictionaryForHints = getDictionaryForHints();
-        Random random = new Random();
         return dictionaryForHints.get(random.nextInt(dictionaryForHints.size()));
     }
 

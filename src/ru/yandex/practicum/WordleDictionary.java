@@ -10,11 +10,9 @@ import java.util.*;
 public class WordleDictionary {
 
     private final List<String> allWords = new ArrayList<>();
-    private Set<String> allWordsSet = new HashSet<>();
 
     public void addWords(Collection<String> dictionary) {
         this.allWords.addAll(dictionary);
-        this.allWordsSet = new HashSet<>(allWords);
     }
 
     public List<String> filterByLength(int length) {
@@ -28,6 +26,6 @@ public class WordleDictionary {
     }
 
     public boolean contains(String word) {
-        return allWordsSet.contains(word);
+        return allWords.contains(word);
     }
 }

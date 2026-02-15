@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class WordleDictionaryLoader {
 
-    PrintWriter logWriter;
+    private final PrintWriter logWriter;
 
     public WordleDictionaryLoader(PrintWriter logWriter) {
         this.logWriter = logWriter;

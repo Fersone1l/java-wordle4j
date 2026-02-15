@@ -14,9 +14,7 @@ class WordleDictionaryHelperTest {
 
     @BeforeEach
     void beforeEach() {
-        PrintWriter logWriter = new PrintWriter(System.out, true);
         dictionary = new WordleDictionary();
-
     }
 
     @Test
@@ -25,7 +23,11 @@ class WordleDictionaryHelperTest {
 
         WordleDictionaryHelper helper = new WordleDictionaryHelper(dictionary);
 
-        assertEquals(WordCorrectness.OK, helper.correctnessChek("аврал", 5));
+        try {
+            assertTrue(helper.correctnessChek("аврал", 5));
+        } catch (WordCorrectnessException e) {
+            fail("Не должно быть исключения: " + e.getMessage());
+        }
     }
 
     @Test
@@ -34,7 +36,12 @@ class WordleDictionaryHelperTest {
 
         WordleDictionaryHelper helper = new WordleDictionaryHelper(dictionary);
 
-        assertEquals(WordCorrectness.WRONG_LENGTH, helper.correctnessChek("наврал", 5));
+        try {
+            assertFalse(helper.correctnessChek("наврал", 5));
+            fail("Должно быть выброшено исключение WordCorrectnessException");;
+        } catch (WordCorrectnessException e) {
+            assertEquals("Длина слова должна быть равна 5.", e.getMessage());
+        }
     }
 
     @Test
@@ -43,7 +50,12 @@ class WordleDictionaryHelperTest {
 
         WordleDictionaryHelper helper = new WordleDictionaryHelper(dictionary);
 
-        assertEquals(WordCorrectness.NOT_IN_DICTIONARY, helper.correctnessChek("наврал", 6));
+        try {
+            helper.correctnessChek("абзац", 5);
+            fail("Должно быть выброшено исключение WordCorrectnessException");
+        } catch (WordCorrectnessException e) {
+            assertEquals("Слово абзац не содержится в словаре.", e.getMessage());
+        }
     }
 
     @Test

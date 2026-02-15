@@ -13,6 +13,7 @@ class GameStarterTest {
     private WordleGame game;
     private WordleDictionary dictionary;
     private PrintWriter logWriter;
+    private final int length = 5;
 
     @BeforeEach
     void beforeEach() {
@@ -24,9 +25,10 @@ class GameStarterTest {
     @Test
     void gameStarterShouldFilterWordsByLengthAndSetDictionary() {
         dictionary.addWords(List.of("аврал", "поезд", "обезьяна", "дом", "мак"));
-        int length = 5;
 
-        new GameStarter(game, logWriter, dictionary, length);
+        GameStarter gameStarter = new GameStarter(logWriter, dictionary, length);
+
+        gameStarter.initializeGame(game);
 
         List<String> testList = dictionary.filterByLength(length);
 
@@ -42,16 +44,17 @@ class GameStarterTest {
     @Test
     void gameStarterShouldThrowOnEmptyDictionary() {
         assertThrows(EmptyDictionaryException.class, () -> {
-            new GameStarter(game, logWriter, dictionary, 5);
+            GameStarter gameStarter = new GameStarter(logWriter, dictionary, length);
+            gameStarter.initializeGame(game);
         });
     }
 
     @Test
     void gameStarterShouldSetAnswerFromFilteredDictionary() {
         dictionary.addWords(List.of("аврал", "поезд", "обезьяна", "дом", "мак"));
-        int length = 5;
 
-        GameStarter gameStarter = new GameStarter(game, logWriter, dictionary, length);
+        GameStarter gameStarter = new GameStarter(logWriter, dictionary, length);
+        gameStarter.initializeGame(game);
 
         String word = gameStarter.getRandomWord(dictionary);
 
