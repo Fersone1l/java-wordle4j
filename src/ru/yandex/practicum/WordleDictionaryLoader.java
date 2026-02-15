@@ -35,7 +35,7 @@ public class WordleDictionaryLoader {
         Path path = Paths.get(fileName);
         File file = path.toFile();
 
-        if (file.exists()){
+        if (file.exists()) {
             logWriter.println("Файл " + fileName + " найден.");
             return file;
         } else {
@@ -48,7 +48,7 @@ public class WordleDictionaryLoader {
         logWriter.println("Читаем файл " + file.getName());
 
         try (FileReader fileReader = new FileReader(file, StandardCharsets.UTF_8);
-             BufferedReader bufferedReader = new BufferedReader(fileReader)){
+             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
             while (bufferedReader.ready()) {
                 String word = bufferedReader.readLine();
                 fileInfo.add(word);
