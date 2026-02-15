@@ -1,6 +1,6 @@
 package ru.yandex.practicum;
 
-import java.util.List;
+import java.util.*;
 
 /*
 этот класс содержит в себе список слов List<String>
@@ -9,6 +9,23 @@ import java.util.List;
  */
 public class WordleDictionary {
 
-    private List<String> words;
+    private final List<String> allWords = new ArrayList<>();
 
+    public void addWords(Collection<String> dictionary) {
+        this.allWords.addAll(dictionary);
+    }
+
+    public List<String> filterByLength(int length) {
+        List<String> result = new ArrayList<>();
+        for (String word : allWords) {
+            if (word.length() == length) {
+                result.add(word);
+            }
+        }
+        return result;
+    }
+
+    public boolean contains(String word) {
+        return allWords.contains(word);
+    }
 }
